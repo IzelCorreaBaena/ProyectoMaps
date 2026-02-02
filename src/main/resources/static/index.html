@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Spring Boot</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        input { padding: 10px; font-size: 16px; }
+        button { padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        #resultado { margin-top: 20px; font-size: 20px; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+
+    <h1>💰 Calculadora de Precios</h1>
+    <p>Introduce un precio y Spring Boot lo calculará:</p>
+
+    <input type="number" id="inputPrecio" placeholder="Ej: 100">
+    <button onclick="llamarAlBackend()">Calcular</button>
+
+    <p id="resultado">Esperando...</p>
+
+    <script>
+        async function llamarAlBackend() {
+            // 1. Cogemos el valor que escribió el usuario
+            let precioUsuario = document.getElementById("inputPrecio").value;
+
+            // 2. ¡LA MAGIA! Llamamos a tu servidor Java (Controller)
+            // Fíjate que usamos la misma URL que ponías en el navegador
+            let respuesta = await fetch("http://localhost:8080/calcular?precio=" + precioUsuario);
+
+            // 3. Leemos el texto que devuelve Java
+            let textoRespuesta = await respuesta.text();
+
+            // 4. Lo mostramos en la pantalla
+            document.getElementById("resultado").innerText = textoRespuesta;
+        }
+    </script>
+
+</body>
+</html>
